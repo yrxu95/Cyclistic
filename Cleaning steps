@@ -1,0 +1,35 @@
+SELECT 
+    ride_id, started_at, ended_at, member_casual
+FROM
+    cyclistic.`202104-divvy-tripdata`
+WHERE
+    ride_id IS NULL OR started_at IS NULL
+        OR ended_at IS NULL
+        OR member_casual IS NULL;
+
+select
+	min(started_at) as min_start, max(started_at) as max_start,min(ended_at) as min_end, max(ended_at) as max_end
+from
+	cyclistic.`202104-divvy-tripdata`;
+
+SELECT
+  count(distinct ride_id), count(*), count(distinct member_casual)
+FROM
+	`202104-divvy-tripdata`;
+    
+DROP table IF EXISTS clean_trip_duration_202104;
+CREATE TABLE clean_trip_duration_202104 as
+SELECT
+  ride_id, started_at, ended_at, member_casual,
+  timediff( ended_at, started_at) as trip_duration,
+  weekday( started_at ) as weekday,
+  time_to_sec(timediff( ended_at, started_at))as trip_len_sec
+FROM
+	`202104-divvy-tripdata`;
+
+DELETE FROM clean_trip_duration_202104 
+WHERE
+    trip_len_sec < 0;
+    
+SELECT * FROM cyclistic.clean_trip_duration_202104
+order by trip_len_sec;
