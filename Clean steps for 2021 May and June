@@ -1,0 +1,29 @@
+ SELECT 
+    ride_id,
+    member_casual,
+    CONVERT( started_at , DATE) AS start_date,
+    CONVERT( started_at , TIME) AS start_time,
+    CONVERT( ended_at , DATE) AS end_date,
+    CONVERT( ended_at , TIME) AS end_time,
+    DATEDIFF(CONVERT( ended_at , DATE),
+            CONVERT( started_at , DATE)) AS trip_ld,
+    TIMEDIFF(CONVERT( ended_at , TIME),
+            CONVERT( started_at , TIME)) AS trip_lt,
+    (DATEDIFF(CONVERT( ended_at , DATE),
+            CONVERT( started_at , DATE)) * 86400 + time_to_sec(TIMEDIFF(CONVERT( ended_at , TIME),
+                CONVERT( started_at , TIME)))) AS trip_len_sec
+FROM
+    clean_trip_duration_202105
+ORDER BY trip_len_sec DESC;
+
+alter table clean_trip_duration_202105
+add trip_len_sec int;
+
+update clean_trip_duration_202105 set trip_len_sec = DATEDIFF(CONVERT( ended_at , DATE),
+            CONVERT( started_at , DATE)) * 86400 + time_to_sec(TIMEDIFF(CONVERT( ended_at , TIME),
+                CONVERT( started_at , TIME)));
+                
+delete from clean_trip_duration_202105 where trip_len_sec < 0;
+
+select * from clean_trip_duration_202105
+order by trip_len_sec 
