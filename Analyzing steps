@@ -1,0 +1,41 @@
+SELECT 
+    member_casual, max(trip_len_sec)
+FROM
+    cyclistic.snow_trip_duration
+group by member_casual;
+
+select
+	member_casual, avg(trip_len_sec)
+FROM
+    cyclistic.snow_trip_duration
+group by member_casual;
+
+select
+	member_casual, weekday, count(weekday), avg(trip_len_sec)
+FROM
+    cyclistic.snow_trip_duration
+group by weekday, member_casual
+order by member_casual, weekday;
+
+
+SELECT 
+    member_casual, max(trip_len_sec)
+FROM
+    cyclistic.summer_trip_duration
+group by member_casual;
+
+select
+	member_casual, avg(trip_len_sec)
+FROM
+    cyclistic.summer_trip_duration
+group by member_casual;
+
+select
+	member_casual, weekday, count(weekday), avg(trip_len_sec)
+FROM
+    cyclistic.summer_trip_duration
+group by weekday, member_casual
+order by member_casual, weekday;
+
+
+    
