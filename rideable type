@@ -1,0 +1,76 @@
+create temporary table allyear_bike_type
+select
+	ride_id, rideable_type, member_casual
+from
+	`202104-divvy-tripdata`
+union all
+select
+	ride_id, rideable_type, member_casual
+from
+	`202105-divvy-tripdata`
+union all
+select
+	ride_id, rideable_type, member_casual
+from
+	`trip_duration_202106`
+union all
+select
+	ride_id, rideable_type, member_casual
+from
+	`trip_duration_202107`
+union all
+select
+	ride_id, rideable_type, member_casual
+from
+	`trip_duration_202108`
+union all
+select
+	ride_id, rideable_type, member_casual
+from
+	`trip_duration_202109`
+union all
+select
+	ride_id, rideable_type, member_casual
+from
+	`trip_duration_202110`
+union all
+select
+	ride_id, rideable_type, member_casual
+from
+	`202111-divvy-tripdata`
+union all
+select
+	ride_id, rideable_type, member_casual
+from
+	`202112-divvy-tripdata`
+union all
+select
+	ride_id, rideable_type, member_casual
+from
+	`202201-divvy-tripdata`
+union all
+select
+	ride_id, rideable_type, member_casual
+from
+	`202202-divvy-tripdata`
+union all
+select
+	ride_id, rideable_type, member_casual
+from
+	`202203-divvy-tripdata`;
+    
+SELECT 
+    rideable_type, COUNT(ride_id)
+FROM
+    allyear_bike_type
+WHERE
+    member_casual = 'member'
+GROUP BY rideable_type;
+
+SELECT 
+    rideable_type, COUNT(ride_id)
+FROM
+    allyear_bike_type
+WHERE
+    member_casual = 'casual'
+GROUP BY rideable_type
